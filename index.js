@@ -14,6 +14,18 @@ function combos(n, k) {
   }
 }
 
-const comb = combos(10, 5)
-console.log(`${JSON.stringify(comb, null, 2)}\nNum Combos = ${comb.length}`)
-// 4,598,126
+function calcWeights(combos, projectedReturns, risk) {
+  return combos.map(combo => {
+    let wr = combo.split(',').reduce((acc, cur, idx) => {
+      return acc + ((cur / 100) * projectedReturns[idx])
+    }, 0);
+    let wk = combo.split(',').reduce((acc, cur, idx) => {
+      return acc + ((cur / 100) * risk[idx])
+    }, 0);
+    return `${combo},${wr},${wk}`;
+  })
+}
+
+const comb = combos(100, 4)
+const weighted = calcWeights(comb, [2.3, 3.9, 6.1, 6.4], [1, 4, 7, 8])
+console.log(`${JSON.stringify(weighted, null, 2)}\nNum Combos = ${comb.length}`)
