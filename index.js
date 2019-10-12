@@ -22,7 +22,7 @@ function calcWeights(combos, projectedReturns, risk) {
     let wk = combo.split(',').reduce((acc, cur, idx) => {
       return acc + ((cur / 100) * risk[idx])
     }, 0);
-    return `${combo},${wr},${wk}`;
+    return `${combo},${wr.toFixed(2)},${wk.toFixed(2)}`;
   })
 }
 
