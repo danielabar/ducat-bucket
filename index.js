@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 function combos(n, k) {
   let outer = []
   if (k === 1) {
@@ -26,6 +28,16 @@ function calcWeights(combos, projectedReturns, risk) {
   })
 }
 
+function saveCsv(combos, filePath, header) {
+  const stream = fs.createWriteStream(filePath)
+  stream.once('open', (fd) => {
+    stream.write(`${header}\n`)
+    combos.forEach(combo => stream.write(`${combo}\n`))
+    stream.end();
+  })
+}
+
 const comb = combos(100, 4)
 const weighted = calcWeights(comb, [2.3, 3.9, 6.1, 6.4], [1, 4, 7, 8])
-console.log(`${JSON.stringify(weighted, null, 2)}\nNum Combos = ${comb.length}`)
+// console.log(`${JSON.stringify(weighted, null, 2)}\nNum Combos = ${comb.length}`)
+saveCsv(weighted, 'output.csv', 'cash,bonds,cdn eqt,us/int eqt,weighted return,weighted risk')
