@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// node --max-old-space-size=8192 index.js -a data/in/asset-classes.csv -p data/in/projected-returns.csv -r data/in/risk.csv -i 4 -x 5
+// node --max-old-space-size=8192 index.js -a data/in/asset-classes.csv -p data/in/projected-returns.csv -r data/in/risk.csv -i 4.1 -x 4.3
 const argv = require('yargs')
   .usage('TBD')
 
