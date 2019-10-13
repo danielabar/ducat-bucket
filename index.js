@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-// node --max-old-space-size=8192 index.js -a data/in/asset-classes.csv -p data/in/projected-returns.csv -r data/in/risk.csv -i 4.1 -x 4.3
+// node --max-old-space-size=8192 index.js -a data/in/asset-classes.csv -p data/in/projected-returns.csv -r data/in/risk.csv -i 4.17 -x 4.19
+// risk and diversification: https://www.investopedia.com/managing-wealth/achieve-optimal-asset-allocation/
 const argv = require('yargs')
   .usage('TBD')
 
