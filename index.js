@@ -1,43 +1,50 @@
-const fs = require('fs')
+#!/usr/bin/env node
 
-function combos(n, k) {
-  let outer = []
-  if (k === 1) {
-    return [
-      [`${n}`]
-    ]
-  } else {
-    for (let i = 0; i < n; i++) {
-      let recurseResult = combos(n - i, k - 1)
-      recurseResult.forEach(r => outer.push(`${i},${r}`))
-    }
-    outer.push(`${n},${Array(k - 1).fill('0').join(',')}`)
-    return outer;
-  }
-}
+// node --max-old-space-size=8192 index.js -a data/in/asset-classes.csv -p data/in/projected-returns.csv -r data/in/risk.csv -i 4 -x 5
+const argv = require('yargs')
+  .usage('TBD')
 
-function calcWeights(combos, projectedReturns, risk) {
-  return combos.map(combo => {
-    let wr = combo.split(',').reduce((acc, cur, idx) => {
-      return acc + ((cur / 100) * projectedReturns[idx])
-    }, 0);
-    let wk = combo.split(',').reduce((acc, cur, idx) => {
-      return acc + ((cur / 100) * risk[idx])
-    }, 0);
-    return `${combo},${wr.toFixed(2)},${wk.toFixed(2)}`;
-  })
-}
+  .alias('a', 'assetClassesFile')
+  .nargs('a', 1)
+  .describe('a', 'Path to csv file containing asset classes')
+  .demandOption(['a'])
 
-function saveCsv(combos, filePath, header) {
-  const stream = fs.createWriteStream(filePath)
-  stream.once('open', (fd) => {
-    stream.write(`${header}\n`)
-    combos.forEach(combo => stream.write(`${combo}\n`))
-    stream.end();
-  })
-}
+  .alias('p', 'projectedReturnsFile')
+  .nargs('p', 1)
+  .describe('p', 'Path to csv file containing projected returns for each asset class')
+  .demandOption(['p'])
 
-const comb = combos(100, 4)
-const weighted = calcWeights(comb, [2.3, 3.9, 6.1, 6.4], [1, 4, 7, 8])
-// console.log(`${JSON.stringify(weighted, null, 2)}\nNum Combos = ${comb.length}`)
-saveCsv(weighted, 'output.csv', 'cash,bonds,cdn eqt,us/int eqt,weighted return,weighted risk')
+  .alias('r', 'riskFile')
+  .nargs('r', 1)
+  .describe('r', 'Path to csv file containing risk rating for each asset class')
+  .demandOption(['r'])
+
+  .alias('i', 'minReturn')
+  .nargs('i', 1)
+  .describe('i', 'Desired minimum return')
+  .demandOption(['i'])
+
+  .alias('x', 'maxReturn')
+  .nargs('x', 1)
+  .describe('x', 'Desired maximum return')
+  .demandOption(['x'])
+
+  .help('h')
+  .alias('h', 'help').argv;
+const portfolio = require('./lib/portfolio');
+
+console.log(`
+  Generating portfolios for:
+    Asset Classes:\t\t\t${argv.a}
+    Projected Returns:\t\t\t${argv.p}
+    Risk:\t\t\t\t${argv.r}
+    Desired Minimum Return:\t\t\t${argv.i}
+    Desired Maximum Return:\t\t\t${argv.x}
+`);
+portfolio.generate({
+  assetClasses: argv.a,
+  projectedReturns: argv.p,
+  risk: argv.r,
+  minReturn: argv.i,
+  maxReturn: argv.x,
+});
