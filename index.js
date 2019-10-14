@@ -33,7 +33,7 @@ const argv = require('yargs')
 const portfolio = require('./lib/portfolio');
 
 console.log(`
-  Generating portfolios for:
+  Inputs:
     Asset Classes:\t\t\t${argv.a}
     Projected Returns:\t\t\t${argv.p}
     Standard Deviation:\t\t\t\t${argv.s}
