@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-// node --max-old-space-size=8192 index.js -a data/in/asset-classes.csv -p data/in/projected-returns.csv -r data/in/risk.csv -i 4.17 -x 4.19
-// risk and diversification: https://www.investopedia.com/managing-wealth/achieve-optimal-asset-allocation/
 const argv = require('yargs')
   .usage('TBD')
 
@@ -15,10 +13,10 @@ const argv = require('yargs')
   .describe('p', 'Path to csv file containing projected returns for each asset class')
   .demandOption(['p'])
 
-  .alias('r', 'riskFile')
-  .nargs('r', 1)
-  .describe('r', 'Path to csv file containing risk rating for each asset class')
-  .demandOption(['r'])
+  .alias('s', 'standardDeviationFile')
+  .nargs('s', 1)
+  .describe('s', 'Path to csv file containing standard deviation for each asset class')
+  .demandOption(['s'])
 
   .alias('i', 'minReturn')
   .nargs('i', 1)
@@ -38,14 +36,14 @@ console.log(`
   Generating portfolios for:
     Asset Classes:\t\t\t${argv.a}
     Projected Returns:\t\t\t${argv.p}
-    Risk:\t\t\t\t${argv.r}
+    Standard Deviation:\t\t\t\t${argv.s}
     Desired Minimum Return:\t\t\t${argv.i}
     Desired Maximum Return:\t\t\t${argv.x}
 `);
 portfolio.generate({
   assetClasses: argv.a,
   projectedReturns: argv.p,
-  risk: argv.r,
+  standardDeviation: argv.s,
   minReturn: argv.i,
   maxReturn: argv.x,
 });
