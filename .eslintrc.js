@@ -1,9 +1,8 @@
 module.exports = {
-  plugins: ['prettier', 'mocha'],
+  plugins: ['prettier'],
   env: {
     es6: true,
     node: true,
-    mocha: true,
   },
   extends: ['eslint:recommended', 'prettier'],
   parserOptions: {
@@ -11,11 +10,10 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': 'error',
-    'mocha/no-exclusive-tests': 'error',
     indent: ['error', 2],
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
-    'no-console': ['warn'],
+    'no-console': 0,
   },
 };
