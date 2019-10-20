@@ -7,7 +7,7 @@ Proof of concept for now, documentation and tests TBD...
 **Example Usage**
 
 ```shell
-$ node --max-old-space-size=8192 index.js -a data/in/asset-classes.csv -p data/in/projected-returns.csv -s data/in/standard-deviation.csv -i 4.17 -x 4.19
+$ node --max-old-space-size=8192 index.js -a data/in/asset-classes.csv -p data/in/projected-returns.csv -s data/in/standard-deviation.csv -i 4.2 -x 4.2
 ```
 
 ## Reference Material
