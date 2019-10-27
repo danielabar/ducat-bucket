@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// TODO: Add optional arguments for taxable (t), tfsa(f), rrsp(r)
+// TODO: Simplify by specifying folder where each input file is located
 const argv = require('yargs')
   .usage('TBD')
 
@@ -28,6 +30,11 @@ const argv = require('yargs')
   .describe('x', 'Desired maximum return')
   .demandOption(['x'])
 
+  .alias('o', 'outputFilePrefix')
+  .nargs('o', 1)
+  .describe('o', 'Prefix to name output file')
+  .demandOption(['o'])
+
   .help('h')
   .alias('h', 'help').argv;
 const portfolio = require('./lib/portfolio');
@@ -39,6 +46,7 @@ console.log(`
     Standard Deviation:\t\t\t\t${argv.s}
     Desired Minimum Return:\t\t\t${argv.i}
     Desired Maximum Return:\t\t\t${argv.x}
+    Output File Prefix::\t\t\t${argv.o}
 `);
 portfolio.generate({
   assetClasses: argv.a,
@@ -46,4 +54,5 @@ portfolio.generate({
   standardDeviation: argv.s,
   minReturn: argv.i,
   maxReturn: argv.x,
+  outputFilePrefix: argv.o,
 });
